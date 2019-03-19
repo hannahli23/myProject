@@ -1,0 +1,135 @@
+
+<div class="panel panel-default">
+    
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Example SQL Server Database information</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-8">
+                <ngx-datatable 
+                    class="bootstrap" 
+                    [rows]="rows" 
+                    [columnMode]="'force'" 
+                    [headerHeight]="50" 
+                    [footerHeight]="50" 
+                    [rowHeight]="'auto'" 
+                    [limit]="15" 
+                    [selected]="selected" 
+                    [selectionType]="'multiClick'" 
+                    (activate)="onActivate($event)" 
+                    (select)='onSelect($event)'>
+                     <ngx-datatable-column name="ID" width="100">
+                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                             <strong>{{value}}{{row['ID']}}</strong>
+                         </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="CountryCode" width="200">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                             <i [innerHTML]="row['ID']"></i> and <i>{{value}}{{row['CountryCode']}}</i>
+                        </ng-template>
+                     </ngx-datatable-column>
+                      <ngx-datatable-column name="District" width="200">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                              <i>{{value}}{{row['District']}}</i>
+                        </ng-template>
+                     </ngx-datatable-column>
+                      <ngx-datatable-column name="Population" width="200">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                              <i>{{value}}{{row['Population']}}</i>
+                        </ng-template>
+                     </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+            <!--<div class="col-md-8">
+                <ngx-datatable class="bootstrap" [rows]="rows" [columnMode]="'force'" [columns]="columns" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="15" [selected]="selected" [selectionType]="'multiClick'" (activate)="onActivate($event)" (select)='onSelect($event)'>
+                </ngx-datatable>
+            </div>-->
+            <div class="col-md-4">
+                <div class='selected-column'>
+                    <h4>You have selected following databases:</h4>
+                    <ul>
+                        <li *ngFor='let sel of selected'>
+                            {{sel.District}}
+                        </li>
+                        <li *ngIf="!selected.length">No Selections</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Update database information inline</div>
+        <small>Double click on cell to show edition mode</small>
+    </div>
+    <div class="panel-body">
+        <ngx-datatable #mydatatable class="bootstrap" [headerHeight]="50" [limit]="5" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+           
+            <ngx-datatable-column prop="instanceName">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span title="Double click to edit" (dblclick)="editing[rowIndex + '-instanceName'] = true" *ngIf="!editing[rowIndex + '-instanceName']">
+                          {{value}}
+                        </span>
+                    <input autofocus (blur)="updateValue($event, 'instanceName', rowIndex)" *ngIf="editing[rowIndex+ '-instanceName']" type="text" [value]="value" />
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="dbName">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                    <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbName'] = true" *ngIf="!editing[rowIndex + '-dbName']">
+                           {{value}}
+                        </span>
+                     <input autofocus (blur)="updateValue($event, 'dbName', rowIndex)" *ngIf="editing[rowIndex+ '-dbName']" type="text" [value]="value" />   
+                    <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                        <option value="db1">db1</option>
+                        <option value="db2">db2</option>
+                    </select>-->
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Actions" >
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button md-icon-button  class="btn btn-sm btn-danger"  (click)="blockAgents(value)" [disabled]="row['status']==='BLOCKED'">
+                      <i class="fa fa-trash"></i>
+                     </button>
+                     <button md-icon-button (click)="approveAgent(value)" [disabled]="row['status']==='APPROVED'">
+                      <i class="fa fa-check"></i>
+                 </button>
+             </ng-template>
+        </ngx-datatable-column>
+        </ngx-datatable>
+   
+     </div>
+  </div>
+<div class="panel">
+    <div class="panel-heading">
+    <em class="fa fa-pencil mr"></em>Add New Database information</div>
+    <div class="panel-body">
+    <form class="form-horizontal" action="/">
+    <div class="form-group">
+    <div class="col-xs-4">
+    <input class="form-control" required id="post-database" type="text" name="post-dbName"  [(ngModel)]="newCOCDBdata.dbName" placeholder="Your database name" />
+    </div>
+    <div class="col-xs-4">
+    <input class="form-control" required id="post-instance" type="text" name="post-instanceName" [(ngModel)]="newCOCDBdata.instanceName" placeholder="Your instance name" />
+    </div>
+</div>
+<div class="form-group">
+<div class="col-xs-12">
+<textarea class="form-control" id="post-comment" name="post-comment" rows="4" placeholder="Comment here.."></textarea>
+</div>
+</div>
+<div class="form-group">
+<div class="col-xs-12">
+<button class="btn btn-effect-ripple btn-primary" (click)="save()" >Send new db info</button>
+<!--<button class="btn btn-effect-ripple btn-primary" type="submit">Send new db info</button>-->
+</div>
+</div>
+</form>
+</div>
+</div>
+
+

@@ -1,0 +1,425 @@
+
+<div class="panel panel-default">
+    
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Example AMC8 {{packageTitle }}</div>
+         <small>
+               <br> Double click on cell to show edition mode</small>
+    </div>
+  <form class="panel">
+    <tabset [justified]="true">
+        <tab>
+            <ng-template tabHeading>All Database</ng-template >
+                <div class="panel-body">
+                        <div class="mb-lg clearfix">
+                            <div class="pull-let wd-md">
+                                 <input *ngIf="config.filtering" placeholder="Filter all columns" [ngTableFiltering]="config.filtering" class="form-control" (tableChanged)="onChangeTable(config)" />
+                            </div>
+                        </div>
+                     <ngx-datatable-column prop="questionYear" width="100">
+                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                             <strong>{{value}}{{row['questionYear']}}</strong>
+                         </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column prop="questionTitle" questionTitlewidth="800">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                             <i [innerHTML]="row['ID']"></i> and <i>{{value}}{{row['questionTitle']}}</i>
+                        </ng-template>
+                     </ngx-datatable-column>
+                     
+                </ngx-datatable>
+            </div>
+            <!--<div class="col-md-8">
+                <ngx-datatable class="bootstrap" [rows]="rows" [columnMode]="'force'" [columns]="columns" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="15" [selected]="selected" [selectionType]="'multiClick'" (activate)="onActivate($event)" (select)='onSelect($event)'>
+                </ngx-datatable>
+            </div>-->
+            <div class="col-md-4">
+                <div class='selected-column'>
+                    <h4>You have selected following databases:</h4>
+                    <ul>
+                        <li *ngFor='let sel of selected'>
+                            {{sel.District}}
+                        </li>
+                        <li *ngIf="!selected.length">No Selections</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</tab> 
+<tab>
+
+</tab>
+<tab>
+<ng-template tabHeading>DB By AppAdmin</ng-template >
+<div>
+<div class="row mb-lg">
+<div class="col-xs-3">
+<strong>Preview</strong>
+</div>
+<div class="col-xs-9">
+<strong>Details</strong>
+</div>
+</div>
+<div class="row mb-lg pb-lg bb">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 1">
+<img class="img-responsive" src="assets/img/bg7.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+<div class="row mb-lg pb-lg bb">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 2">
+<img class="img-responsive" src="assets/img/bg8.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+<div class="row mb-lg pb-lg">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 3">
+<img class="img-responsive" src="assets/img/bg10.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+</div>
+</tab>
+<tab>
+<ng-template tabHeading>DB By BusinessOwner</ng-template >
+<div>
+<div class="row mb-lg">
+<div class="col-xs-3">
+<strong>Preview</strong>
+</div>
+<div class="col-xs-9">
+<strong>Details</strong>
+</div>
+</div>
+<div class="row mb-lg pb-lg bb">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 1">
+<img class="img-responsive" src="assets/img/bg7.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+<div class="row mb-lg pb-lg bb">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 2">
+<img class="img-responsive" src="assets/img/bg8.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+<div class="row mb-lg pb-lg">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 3">
+<img class="img-responsive" src="assets/img/bg10.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+</div>
+</tab>
+<tab>
+<ng-template tabHeading>DB By SQLServer Version</ng-template >
+<div>
+<div class="row mb-lg">
+<div class="col-xs-3">
+<strong>Preview</strong>
+</div>
+<div class="col-xs-9">
+<strong>Details</strong>
+</div>
+</div>
+<div class="row mb-lg pb-lg bb">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 1">
+<img class="img-responsive" src="assets/img/bg7.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod1-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+<div class="row mb-lg pb-lg bb">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 2">
+<img class="img-responsive" src="assets/img/bg8.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod2-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+<div class="row mb-lg pb-lg">
+<div class="col-xs-6 col-sm-3">
+<a href="#" title="Product 3">
+<img class="img-responsive" src="assets/img/bg10.jpg" alt="Product 1" />
+</a>
+</div>
+<div class="col-xs-6 col-sm-9">
+<fieldset>
+<div class="form-group">
+<input class="form-control" type="text" placeholder="Brief description.." />
+</div>
+</fieldset>
+<p>
+<strong>Picture type</strong>
+</p>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option1" checked="" />
+<span></span>Primary</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option2" />
+<span></span>Thumbnail</label>
+</div>
+<div class="radio c-radio c-radio-nofont">
+<label>
+<input type="radio" name="prod3-pic" value="option3" />
+<span></span>Gallery</label>
+</div>
+<div class="text-right">
+<button class="btn btn-sm btn-danger" type="button">
+<em class="fa fa-times-circle fa-fw"></em>Remove</button>
+</div>
+</div>
+</div>
+</div>
+</tab>
+</tabset>
+</form>
+</div>
+
+
+

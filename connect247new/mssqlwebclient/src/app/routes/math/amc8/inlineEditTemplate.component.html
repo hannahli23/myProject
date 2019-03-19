@@ -1,0 +1,634 @@
+
+<div class="content-heading">City of Chandler SQL Server Migration</div>
+<div class="panel panel-default">
+     <div class="panel-heading">
+      <div class="panel-title">All SQL Server databases are scheduled to migration to new hardware during 2018-2019.</div>
+      <small>
+            <br> Double click on cell to show edition mode</small>
+  </div>
+  <form class="panel">
+      <tabset [justified]="true">
+          <tab>
+              <ng-template tabHeading>All Database</ng-template >
+               
+                <div class="panel-body">
+                    <div  class="mb-lg clearfix">
+                        <div class="pull-let wd-md">
+                            <input *ngIf="config.filtering" placeholder="Filter all columns" [ngTableFiltering]="config.filtering" class="form-control" (tableChanged)="onChangeTable(config)" />
+                         
+                        </div>
+                      </div>
+                    <ngx-datatable #mydatatable class="bootstrap" [headerHeight]="50" [limit]="20" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+                        <!-- <ngx-datatable-column prop="dbMigrationID" name='ID'>
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbMigrationID'] = true" *ngIf="!editing[rowIndex + '-dbMigrationID']">
+                                      {{value}}
+                                    </span>
+                                <input autofocus (blur)="updateValue($event, 'dbMigrationID', rowIndex)" *ngIf="editing[rowIndex+ '-dbMigrationID']" type="text" [value]="value" />
+                            </ng-template>
+                        </ngx-datatable-column> -->
+                        <ngx-datatable-column prop="dbName" name='Database'>
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbName'] = true" *ngIf="!editing[rowIndex + '-dbName']">
+                                      {{value}}
+                                    </span>
+                                <input autofocus (blur)="updateValue($event, 'dbName', rowIndex)" *ngIf="editing[rowIndex+ '-dbName']" type="text" [value]="value" />
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="appName" name='Application'>
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-appName'] = true" *ngIf="!editing[rowIndex + '-appName']">
+                                      {{value}}
+                                    </span>
+                                <input autofocus (blur)="updateValue($event, 'appName', rowIndex)" *ngIf="editing[rowIndex+ '-appName']" type="text" [value]="value" />
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="instanceNameFull" name='Current Instance'>
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-instanceNameFull'] = true" *ngIf="!editing[rowIndex + '-instanceNameFull']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'instanceNameFull', rowIndex)" *ngIf="editing[rowIndex+ '-instanceNameFull']" type="text" [value]="value" />          
+                            </ng-template>
+                        </ngx-datatable-column>  
+                        <!-- <ngx-datatable-column prop="InsVName">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-InsVName'] = true" *ngIf="!editing[rowIndex + '-InsVName']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'InsVName', rowIndex)" *ngIf="editing[rowIndex+ '-InsVName']" type="text" [value]="value" />   
+                               
+                            </ng-template>
+                        </ngx-datatable-column> -->
+                        <ngx-datatable-column prop="dbenv" name="ENV" width=5>
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbenv'] = true" *ngIf="!editing[rowIndex + '-dbenv']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'dbenv', rowIndex)" *ngIf="editing[rowIndex+ '-dbenv']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="dbMigrateDestInstance" name="Target Instance">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbMigrateDestInstance'] = true" *ngIf="!editing[rowIndex + '-dbMigrateDestInstance']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'dbMigrateDestInstance', rowIndex)" *ngIf="editing[rowIndex+ '-dbMigrateDestInstance']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="appAdmin" name="App Admin">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-appAdmin'] = true" *ngIf="!editing[rowIndex + '-appAdmin']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'appAdmin', rowIndex)" *ngIf="editing[rowIndex+ '-appAdmin']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="scheduledate" name="Scheduled Date">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-scheduledate'] = true" *ngIf="!editing[rowIndex + '-scheduledate']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'scheduledate', rowIndex)" *ngIf="editing[rowIndex+ '-scheduledate']" type="text" [value]="value" />   
+                               
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="dbMigrateScheduledAppAppr" name="APP Admin Approve">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbMigrateScheduledAppAppr'] = true" *ngIf="!editing[rowIndex + '-dbMigrateScheduledAppAppr']">
+                                       {{value}}
+                                    </span>
+                                 <!-- <input autofocus (blur)="updateValue($event, 'dbMigrateStatus', rowIndex)" *ngIf="editing[rowIndex+ '-dbMigrateStatus']" type="text" [value]="value" />    -->
+                               <select *ngIf="editing[rowIndex + '-dbMigrateScheduledAppAppr']" (change)="updateValue($event, 'dbMigrateScheduledAppAppr', rowIndex)" [value]="value">
+                                    <option value="UnApproved">UnApproved</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Suggest a New Date">Suggest a New Date</option>
+                                </select>
+                            </ng-template>
+                        </ngx-datatable-column>  
+                        <ngx-datatable-column prop="dbMigrateScheduledBOAppr" name="Business Owner Approve">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbMigrateScheduledBOAppr'] = true" *ngIf="!editing[rowIndex + '-dbMigrateScheduledBOAppr']">
+                                       {{value}}
+                                    </span>
+                                 <!-- <input autofocus (blur)="updateValue($event, 'dbMigrateStatus', rowIndex)" *ngIf="editing[rowIndex+ '-dbMigrateStatus']" type="text" [value]="value" />    -->
+                               <select *ngIf="editing[rowIndex + '-dbMigrateScheduledBOAppr']" (change)="updateValue($event, 'dbMigrateScheduledBOAppr', rowIndex)" [value]="value">
+                                    <option value="UnApproved">UnApproved</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Suggest a New Date">Suggest a New Date</option>
+                                </select>
+                            </ng-template>
+                        </ngx-datatable-column> 
+                        <ngx-datatable-column prop="dbMigrateStatus" name="Migration Status">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbMigrateStatus'] = true" *ngIf="!editing[rowIndex + '-dbMigrateStatus']">
+                                       {{value}}
+                                    </span>
+                                 <!-- <input autofocus (blur)="updateValue($event, 'dbMigrateStatus', rowIndex)" *ngIf="editing[rowIndex+ '-dbMigrateStatus']" type="text" [value]="value" />    -->
+                               <select *ngIf="editing[rowIndex + '-dbMigrateStatus']" (change)="updateValue($event, 'dbMigrateStatus', rowIndex)" [value]="value">
+                                    <option value="Unscheduled">Unscheduled</option>
+                                    <option value="ScheduleApproved">ScheduleApproved</option>
+                                    <option value="CompleteSucceed">CompleteSucceed</option>
+                                </select>
+                            </ng-template>
+                        </ngx-datatable-column>  
+              <ngx-datatable-column name="Actions" >
+                            <ng-template ngx-datatable-cell-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <button md-icon-button  class="btn btn-sm btn-danger"  [disabled]="row['status']==='BLOCKED'">
+                                  <i class="fa fa-trash"></i>
+                                 </button>
+                                 <button md-icon-button [disabled]="row['status']==='APPROVED'">
+                                  <i class="fa fa-check"></i>
+                             </button>
+                         </ng-template>
+                    </ngx-datatable-column>
+                    </ngx-datatable>
+               
+                 </div>
+          </tab> 
+          <tab>
+              <ng-template tabHeading>DB By Instance</ng-template >
+                <div class="panel-body">
+                    <div  class="mb-lg clearfix">
+                        <div class="pull-let wd-md">
+                          <input *ngIf="config.filtering" placeholder="Filter all columns" [ngTableFiltering]="config.filtering" class="form-control" (tableChanged)="onChangeTable(config)">
+                        </div>
+                      </div>
+                    <ngx-datatable #mydatatable class="bootstrap" [headerHeight]="50" [limit]="20" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+                       
+                        <ngx-datatable-column prop="appName">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-appName'] = true" *ngIf="!editing[rowIndex + '-appName']">
+                                      {{value}}
+                                    </span>
+                                <input autofocus (blur)="updateValue($event, 'appName', rowIndex)" *ngIf="editing[rowIndex+ '-appName']" type="text" [value]="value" />
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="currentInstanceName">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-currentInstanceName'] = true" *ngIf="!editing[rowIndex + '-currentInstanceName']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'currentInstanceName', rowIndex)" *ngIf="editing[rowIndex+ '-currentInstanceName']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="dbenv">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbenv'] = true" *ngIf="!editing[rowIndex + '-dbenv']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'dbenv', rowIndex)" *ngIf="editing[rowIndex+ '-dbenv']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="newInstanceName">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-newInstanceName'] = true" *ngIf="!editing[rowIndex + '-newInstanceName']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'newInstanceName', rowIndex)" *ngIf="editing[rowIndex+ '-newInstanceName']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="appAdmin">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-appAdmin'] = true" *ngIf="!editing[rowIndex + '-appAdmin']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'appAdmin', rowIndex)" *ngIf="editing[rowIndex+ '-appAdmin']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="ScheduledDate">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbMigratScheduledDate'] = true" *ngIf="!editing[rowIndex + '-dbMigratScheduledDate']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'dbMigratScheduledDate', rowIndex)" *ngIf="editing[rowIndex+ '-dbMigratScheduledDate']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="dbMigrateStatus">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                <span title="Double click to edit" (dblclick)="editing[rowIndex + '-dbMigrateStatus'] = true" *ngIf="!editing[rowIndex + '-dbMigrateStatus']">
+                                       {{value}}
+                                    </span>
+                                 <input autofocus (blur)="updateValue($event, 'dbMigrateStatus', rowIndex)" *ngIf="editing[rowIndex+ '-dbMigrateStatus']" type="text" [value]="value" />   
+                                <!--<select *ngIf="editing[rowIndex + '-CountryCode']" (change)="updateValue($event, 'CountryCode', rowIndex)" [value]="value">
+                                    <option value="db1">db1</option>
+                                    <option value="db2">db2</option>
+                                </select>-->
+                            </ng-template>
+                        </ngx-datatable-column>
+              
+                        <ngx-datatable-column name="Actions" >
+                            <ng-template ngx-datatable-cell-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <button md-icon-button  class="btn btn-sm btn-danger"  (click)="blockAgents(value)" [disabled]="row['status']==='BLOCKED'">
+                                  <i class="fa fa-trash"></i>
+                                 </button>
+                                 <button md-icon-button (click)="approveAgent(value)" [disabled]="row['status']==='APPROVED'">
+                                  <i class="fa fa-check"></i>
+                             </button>
+                         </ng-template>
+                    </ngx-datatable-column>
+                    </ngx-datatable>
+               
+                 </div>
+          </tab>
+          <tab>
+              <ng-template tabHeading>DB By AppAdmin</ng-template >
+              <div>
+                
+                  <div class="row mb-lg">
+                      <div class="col-xs-3">
+                          <strong>Preview</strong>
+                      </div>
+                      <div class="col-xs-9">
+                          <strong>Details</strong>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg bb">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 1">
+                              <img class="img-responsive" src="assets/img/bg7.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg bb">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 2">
+                              <img class="img-responsive" src="assets/img/bg8.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 3">
+                              <img class="img-responsive" src="assets/img/bg10.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </tab>
+          <tab>
+              <ng-template tabHeading>DB By BusinessOwner</ng-template >
+              <div>
+                  <div class="row mb-lg">
+                      <div class="col-xs-3">
+                          <strong>Preview</strong>
+                      </div>
+                      <div class="col-xs-9">
+                          <strong>Details</strong>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg bb">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 1">
+                              <img class="img-responsive" src="assets/img/bg7.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg bb">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 2">
+                              <img class="img-responsive" src="assets/img/bg8.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 3">
+                              <img class="img-responsive" src="assets/img/bg10.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </tab>
+          <tab>
+              <ng-template tabHeading>DB By SQLServer Version</ng-template >
+              <div>
+                  <div class="row mb-lg">
+                      <div class="col-xs-3">
+                          <strong>Preview</strong>
+                      </div>
+                      <div class="col-xs-9">
+                          <strong>Details</strong>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg bb">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 1">
+                              <img class="img-responsive" src="assets/img/bg7.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod1-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg bb">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 2">
+                              <img class="img-responsive" src="assets/img/bg8.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod2-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-lg pb-lg">
+                      <div class="col-xs-6 col-sm-3">
+                          <a href="#" title="Product 3">
+                              <img class="img-responsive" src="assets/img/bg10.jpg" alt="Product 1" />
+                          </a>
+                      </div>
+                      <div class="col-xs-6 col-sm-9">
+                          <fieldset>
+                              <div class="form-group">
+                                  <input class="form-control" type="text" placeholder="Brief description.." />
+                              </div>
+                          </fieldset>
+                          <p>
+                              <strong>Picture type</strong>
+                          </p>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option1" checked="" />
+                                  <span></span>Primary</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option2" />
+                                  <span></span>Thumbnail</label>
+                          </div>
+                          <div class="radio c-radio c-radio-nofont">
+                              <label>
+                                  <input type="radio" name="prod3-pic" value="option3" />
+                                  <span></span>Gallery</label>
+                          </div>
+                          <div class="text-right">
+                              <button class="btn btn-sm btn-danger" type="button">
+                                  <em class="fa fa-times-circle fa-fw"></em>Remove</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </tab>
+      </tabset>
+  </form>
+   
+</div>
+

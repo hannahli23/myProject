@@ -1,0 +1,15 @@
+use world;
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetAllCity//
+CREATE PROCEDURE GetAllCity()
+	BEGIN
+		SELECT * FROM city;
+	END //
+DELIMITER ;
+
+
+
+CALL GetAllCity();
+
+
+
